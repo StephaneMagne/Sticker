@@ -11,18 +11,11 @@ import SwiftUI
 
 public struct TransformStickerMotionEffect: StickerMotionEffect {
 
-    let transform: StickerTransform
+    @Binding var transform: StickerTransform
 
     let intensity: Double
 
     @Environment(\.stickerShaderUpdater) private var shaderUpdater
-
-    @State private var hasPresented = false
-
-    init(transform: StickerTransform, intensity: Double) {
-        self.transform = transform
-        self.intensity = intensity
-    }
 
     public func body(content: Content) -> some View {
         return content
@@ -33,7 +26,7 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
                     .rotation3DEffect(.radians(xRotation), axis: (0, 1, 0))
                     .rotation3DEffect(.radians(yRotation), axis: (-1, 0, 0))
             }
-            .task {
+            .onChange(of: transform) {
                 print("(update shader) manual.transform -> x: \(transform.x), y: \(transform.y)")
                 shaderUpdater.update(with: transform)
             }
@@ -42,7 +35,7 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
 
 public extension StickerMotionEffect where Self == TransformStickerMotionEffect {
 
-    static func transform(_ stickerTransform: StickerTransform = .neutral, intensity: Double = 1) -> Self {
+    static func transform(_ stickerTransform: Binding<StickerTransform> = .constant(.neutral), intensity: Double = 1) -> Self {
         TransformStickerMotionEffect(transform: stickerTransform, intensity: intensity)
     }
 }
