@@ -17,6 +17,8 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
 
     @Environment(\.stickerShaderUpdater) private var shaderUpdater
 
+    @State private var hasPresented = false
+
     init(transform: StickerTransform, intensity: Double) {
         self.transform = transform
         self.intensity = intensity
@@ -26,12 +28,19 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
         print("manual.transform -> x: \(transform.x), y: \(transform.y)")
         return content
             .withViewSize { view, size in
-                let xRotation: Double = (transform.x / size.width) * intensity
-                let yRotation: Double = (transform.y / size.height) * intensity
+                if hasPresented {
+                    let xRotation: Double = (transform.x / size.width) * intensity
+                    let yRotation: Double = (transform.y / size.height) * intensity
+                    view
+                        .rotation3DEffect(.radians(xRotation), axis: (0, 1, 0))
+                        .rotation3DEffect(.radians(yRotation), axis: (-1, 0, 0))
+                } else {
+                    view
+                }
+            }
+            .onAppear {
                 shaderUpdater.update(with: transform)
-                return view
-                    .rotation3DEffect(.radians(xRotation), axis: (0, 1, 0))
-                    .rotation3DEffect(.radians(yRotation), axis: (-1, 0, 0))
+                hasPresented = true
             }
     }
 }
