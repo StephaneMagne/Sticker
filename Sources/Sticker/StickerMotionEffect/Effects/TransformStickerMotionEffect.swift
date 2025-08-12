@@ -23,7 +23,8 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
     }
 
     public func body(content: Content) -> some View {
-        content
+        print("manual.transform -> x: \(transform.x), y: \(transform.y)")
+        return content
             .withViewSize { view, size in
                 let xRotation: Double = (transform.x / size.width) * intensity
                 let yRotation: Double = (transform.y / size.height) * intensity

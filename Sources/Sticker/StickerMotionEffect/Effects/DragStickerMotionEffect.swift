@@ -15,7 +15,8 @@ public struct DragStickerMotionEffect: StickerMotionEffect {
     @Environment(\.stickerShaderUpdater) private var shaderUpdater
 
     public func body(content: Content) -> some View {
-        content
+        print("Drag.transform -> x: \(transform.x), y: \(transform.y)")
+        return content
             .withViewSize { view, size in
                 let xRotation: Double = (transform.x / size.width) * intensity
                 let yRotation: Double = (transform.y / size.height) * intensity
