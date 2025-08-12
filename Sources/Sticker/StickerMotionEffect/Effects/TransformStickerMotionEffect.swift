@@ -11,18 +11,13 @@ import SwiftUI
 
 public struct TransformStickerMotionEffect: StickerMotionEffect {
 
-    @State private var transform: StickerTransform
+    @State private(set) var transform: StickerTransform
 
     let intensity: Double
 
     @Environment(\.stickerShaderUpdater) private var shaderUpdater
 
 //    @State private var hasPresented = false
-
-    init(transform: StickerTransform, intensity: Double) {
-        self.transform = transform
-        self.intensity = intensity
-    }
 
     public func body(content: Content) -> some View {
         print("manual.transform -> x: \(transform.x), y: \(transform.y)")
