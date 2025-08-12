@@ -40,10 +40,6 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
 
 public extension StickerMotionEffect where Self == TransformStickerMotionEffect {
 
-    static func transform(_ stickerTransform: StickerTransform) -> Self {
-        .transform()
-    }
-
     static func transform(_ stickerTransform: StickerTransform = .neutral, intensity: Double = 1) -> Self {
         TransformStickerMotionEffect(transform: stickerTransform, intensity: intensity)
     }
