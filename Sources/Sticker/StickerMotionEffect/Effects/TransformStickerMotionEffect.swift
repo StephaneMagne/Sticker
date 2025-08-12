@@ -11,13 +11,13 @@ import SwiftUI
 
 public struct TransformStickerMotionEffect: StickerMotionEffect {
 
-    let transform: StickerTransform
+    @State private var transform: StickerTransform = .neutral
 
     let intensity: Double
 
     @Environment(\.stickerShaderUpdater) private var shaderUpdater
 
-    @State private var hasPresented = false
+//    @State private var hasPresented = false
 
     init(transform: StickerTransform, intensity: Double) {
         self.transform = transform
@@ -28,19 +28,19 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
         print("manual.transform -> x: \(transform.x), y: \(transform.y)")
         return content
             .withViewSize { view, size in
-                if hasPresented {
+//                if hasPresented {
                     let xRotation: Double = (transform.x / size.width) * intensity
                     let yRotation: Double = (transform.y / size.height) * intensity
                     view
                         .rotation3DEffect(.radians(xRotation), axis: (0, 1, 0))
                         .rotation3DEffect(.radians(yRotation), axis: (-1, 0, 0))
-                } else {
-                    view
-                }
+//                } else {
+//                    view
+//                }
             }
             .onAppear {
                 shaderUpdater.update(with: transform)
-                hasPresented = true
+//                hasPresented = true
             }
     }
 }
