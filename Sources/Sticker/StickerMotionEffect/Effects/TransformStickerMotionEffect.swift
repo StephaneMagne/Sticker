@@ -25,22 +25,17 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
     }
 
     public func body(content: Content) -> some View {
-        print("manual.transform -> x: \(transform.x), y: \(transform.y)")
         return content
             .withViewSize { view, size in
-                if hasPresented {
-                    let xRotation: Double = (transform.x / size.width) * intensity
-                    let yRotation: Double = (transform.y / size.height) * intensity
-                    view
-                        .rotation3DEffect(.radians(xRotation), axis: (0, 1, 0))
-                        .rotation3DEffect(.radians(yRotation), axis: (-1, 0, 0))
-                } else {
-                    view
-                }
+                let xRotation: Double = (transform.x / size.width) * intensity
+                let yRotation: Double = (transform.y / size.height) * intensity
+                view
+                    .rotation3DEffect(.radians(xRotation), axis: (0, 1, 0))
+                    .rotation3DEffect(.radians(yRotation), axis: (-1, 0, 0))
             }
-            .onAppear {
+            .task {
+                print("(update shader) manual.transform -> x: \(transform.x), y: \(transform.y)")
                 shaderUpdater.update(with: transform)
-                hasPresented = true
             }
     }
 }
