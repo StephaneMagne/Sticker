@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct TransformStickerMotionEffect: StickerMotionEffect {
 
-    @State private var transform: StickerTransform = .neutral
+    @State private var transform: StickerTransform
 
     let intensity: Double
 
