@@ -28,12 +28,10 @@ public struct TransformStickerMotionEffect: StickerMotionEffect {
             .withViewSize { view, size in
                 let xRotation: Double = (transform.x / size.width) * intensity
                 let yRotation: Double = (transform.y / size.height) * intensity
-                view
+                shaderUpdater.update(with: transform)
+                return view
                     .rotation3DEffect(.radians(xRotation), axis: (0, 1, 0))
                     .rotation3DEffect(.radians(yRotation), axis: (-1, 0, 0))
-            }
-            .onAppear {
-                shaderUpdater.update(with: transform)
             }
     }
 }
